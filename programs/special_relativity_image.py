@@ -20,17 +20,18 @@ if DEG_x == 0:
     print("DEG_x and DEG_y can not be 0. ")
 else:
     #速度/光速
-    BETA = 0.9
+    BETA = 0.7
     #定数ガンマ
     GAMMA = (1 - BETA**2)**(-1/2)
 
     # 元となる画像の読み込み(配列に変換)
-    im = Image.open('Im_in/yellow.jpeg')
+    im = Image.open('Im_in/yellow.jpg')
     #オリジナル画像の幅と高さを取得
     W, H = im.size
     im = np.array(im)
     #print(im.shape)
     #print(W,H)
+    
     #各種定数
     R_x = W / (2 * math.sin(DEG_x))
     R_y = (R_x**2 + (H/2)**2 - (W/2)**2)**(1/2)
@@ -40,6 +41,7 @@ else:
     R = (( (W/2)**2 + (H/2)**2) +x**2)**(1/2)
     #print(R_x * math.cos(DEG_x), R_y * math.cos(DEG_y))
     #print(R**2, R_y**2 + (W/2)**2, R_x**2 + (H/2)**2)
+
     #新画像生成(配列に変換)
     #色変換用
     im2 = np.array(Image.new("RGB", (W, H), (0, 0, 0)))
@@ -62,7 +64,7 @@ else:
             else:
                 #RGBやりとりで色変換
                 im2[i, j], q, r, s, t, m, n, o, p = co.color2(BETA, GAMMA, W, H, lam, Hls, im[int(za_1), int(ya_1)], xb_1, yb_1, zb_1, q, r, s, t, m, n, o, p)
-    print(q, r, s, t, m, n, o, p)
+    #print(q, r, s, t, m, n, o, p)
 
     for k in tqdm(range(0, H)):
         for l in range(0, W):
@@ -73,6 +75,6 @@ else:
             else:
                 #RGBやりとりで色変換
                 im3[k, l] = im2[int(za_2), int(ya_2)]
-
+    #色変化のみ確認用
     #Image.fromarray(im2).save('Im_out/yellow_im2.jpg')
     Image.fromarray(im3).save('Im_out/yellow_im3.jpg')
